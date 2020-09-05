@@ -71,3 +71,5 @@ nums.length <= threshold <= 10^6
         }
         return lo;
     }
+
+    // time complexity - O(n * log(max_element))
