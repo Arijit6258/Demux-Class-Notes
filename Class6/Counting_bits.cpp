@@ -25,3 +25,19 @@ vector<int> countBits(int num) {
             count_set[i] = count_set[i&(i - 1)] + 1;
         return count_set;
     }
+
+    // Alternating solution
+
+    vector<int> countBits(int num) {
+        vector<int> count_set(num + 1, 0);
+        for (int i = 1; i <= num; i++) {
+            if (i%2)
+                count_set[i] = count_set[i - 1] + 1;
+            else
+                count_set[i] = count_set[i/2];
+                
+        }
+        return count_set;
+    }
+
+.
