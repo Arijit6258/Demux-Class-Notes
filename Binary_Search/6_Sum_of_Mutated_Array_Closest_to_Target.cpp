@@ -43,36 +43,47 @@
 
 class Solution {
 public:
-    int getSum (int val, vector<int>& arr) {
+    int get_sum (int value, vector<int> &arr) {
         int sum = 0;
-        for (int n : arr) {
-            if (n > val) sum += val;
-            else sum += n;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] > value)
+                sum += value;
+            else
+                sum += arr[i];
         }
-        
         return sum;
     }
     
     int findBestValue(vector<int>& arr, int target) {
-        int lo = 0, hi = INT_MIN;
-        for (int n : arr) {
-            hi = max(hi, n);
-        }
+        // find the value for s(v) <= target with v as large as possible
+        // search space is 0 to max_element of array
+        int n = arr.size(), lo, hi, mid;
         
-        // predicate - sum <= target
+        lo = 0, hi = 0;
         // TTT*FFF*
-        // find last T and first F
+        // P(X) : S(v) <= target
+        // last T
+        for (int i = 0; i < arr.size(); i++)
+            hi = max(hi, arr[i]);
         
-        // last T -
         while(lo < hi) {
-            int mid = lo+(hi-lo+1)/2;
-        
-            if (getSum(mid, arr) <= target) lo = mid;
-            else hi = mid-1;
+            mid = lo + (hi - lo + 1)/2;
+            if (get_sum (mid, arr) <= target)
+                lo = mid;
+            else
+                hi = mid - 1;
         }
         
+        // Sanity check
+        // no need to sanity check because we are considering 0 as a potential answer.
+        // So there will be one true at any point.
         
-        int s1 = getSum(lo, arr), s2 = getSum(lo+1, arr);
-        return abs(s1-target) <= abs(s2-target) ? lo : lo+1;
+        int S1 = get_sum(lo, arr), S2 = get_sum(lo + 1, arr);
+        int diff1 = abs(target - S1), diff2 = abs(target - S2);
+        
+        if (diff1 <= diff2)
+            return lo;
+        else
+            return lo + 1;
     }
 };
